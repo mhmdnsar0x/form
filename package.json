@@ -9,6 +9,7 @@
     "dev": "nodemon backend/server.js",
     "frontend": "live-server frontend"
   },
+  
   "keywords": [],
   "author": "",
   "license": "ISC",

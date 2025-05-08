@@ -26,7 +26,7 @@ const upload = multer({ storage });
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use("/static", express.static("public"));
+app.use(express.static("public"));
 
 async function push(title, body, fileUrl) {
 	try {
@@ -123,9 +123,7 @@ res.status(200)	} catch (err) {
 			}
 		}
 
-		// Attempt to delete the file even if an error occurs
-		
-
+	
 		res.status(500).json({ error: "Failed to upload and push file" });
 	}
 
