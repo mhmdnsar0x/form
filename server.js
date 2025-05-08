@@ -109,7 +109,8 @@ app.post("/api/submit", upload.single("image"), async (req, res) => {
 
 		// Send a push notification
 	
-res.status(200)	} catch (err) {
+	
+res.send("200")	} catch (err) {
 		console.error(
 			"Error in file upload or push:",
 			err.response?.data || err.message
