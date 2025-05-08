@@ -229,43 +229,50 @@ const balanceMapping = {
   function handleFileSelect(file) {
     // Validate file type
     if (!file.type.match('image.*')) {
-      alert('برجاء اختيار صورة فقط');
-      return;
+        alert('برجاء اختيار صورة فقط');
+        return;
     }
-  
+
     // Validate file size (5MB max)
     if (file.size > 5 * 1024 * 1024) {
-      alert('حجم الصورة يجب أن يكون أقل من 5 ميجابايت');
-      return;
+        alert('حجم الصورة يجب أن يكون أقل من 5 ميجابايت');
+        return;
     }
-  
+
     // Store the file in form state
     formState.screenshot = file;
-  
+
     // Create preview
     const reader = new FileReader();
-    reader.onload = function(e) {
-      previewImage.src = e.target.result;
-      previewContainer.classList.remove('hidden');
+    reader.onload = function (e) {
+        // Set the uploaded image as the preview
+        previewImage.src = e.target.result;
+        previewContainer.classList.remove('hidden');
+
+        // Hide the upload area
+        dropArea.classList.add('hidden');
     };
     reader.readAsDataURL(file);
-  
+
     validateForm();
-  }
-  
-  // Remove image
-  removeImageBtn.addEventListener('click', function() {
+}
+
+// Event listener for the cancel button
+removeImageBtn.addEventListener('click', function () {
+    // Reset the preview and form state
     previewContainer.classList.add('hidden');
     previewImage.src = '';
     screenshotInput.value = '';
     formState.screenshot = null;
-  
+
+    // Show the upload area again
+    dropArea.classList.remove('hidden');
+
     validateForm();
-  });
+});
   
   // Form submission
   form.addEventListener('submit', function(e) {
-  
     // Final validation
     if (!submitBtn.disabled) {
       // Create order summary
@@ -287,6 +294,7 @@ const balanceMapping = {
       formContainer.classList.add('hidden');
       successContainer.classList.remove('hidden');
     }
+
   });
   
   // New request button

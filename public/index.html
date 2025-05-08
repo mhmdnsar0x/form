@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-  <title>نظام شحن الرصيد | M Roshdy</title>
+  <title>Recharge| M.Nassar</title>
   <meta name="description" content="نظام شحن رصيد الهاتف المحمول بسرعة وسهولة. اختر الباقة المناسبة وطريقة الدفع واحصل على الرصيد فوراً.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -123,28 +123,26 @@
           </div>
           
           <!-- Screenshot Upload (Hidden initially) -->
-          <div id="uploadSection" class="form-group hidden">
-            <label>ابعت اسكرين بالتحويل</label>
+          <div id="uploadSection" class="form-group">
             <div id="dropArea" class="drop-area">
-              <input type="file" id="screenshot" name="image" accept="image/*" class="hidden">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <polyline points="17 8 12 3 7 8" />
-                <line x1="12" y1="3" x2="12" y2="15" />
-              </svg>
-              <p class="upload-text">ارفع الصورة..</p>
-              <p class="upload-hint">PNG, JPG حجم الملف حتى 5MB</p>
-            </div>
-            
-            <!-- Preview Image Container (Hidden initially) -->
-            <div id="previewContainer" class="preview-container hidden">
-              <img id="previewImage" src="" alt="معاينة الصورة">
-              <button type="button" id="removeImage" class="remove-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="18" y1="6" x2="6" y2="18" />
-                  <line x1="6" y1="6" x2="18" y2="18" />
+                <input type="file" id="screenshot" name="image" accept="image/*" class="hidden">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="17 8 12 3 7 8" />
+                    <line x1="12" y1="3" x2="12" y2="15" />
                 </svg>
-              </button>
+                <p class="upload-text">ارفع الصورة..</p>
+                <p class="upload-hint">( PNG, JPG حجم الملف حتى 5MB )</p>
+            </div>
+
+            <div id="previewContainer" class="preview-container hidden">
+                <img id="previewImage" src="" alt="معاينة الصورة">
+                <button type="button" id="removeImage" class="remove-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                </button>
             </div>
           </div>
           
@@ -194,3 +192,4 @@
 
   <script src="/static/main.js"></script>
 </body>
+</html>
