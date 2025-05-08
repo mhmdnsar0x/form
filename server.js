@@ -1,0 +1,121 @@
+import express from "express";
+import axios from "axios";
+import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
+import multer from "multer";
+import fs from "fs";
+import FormData from "form-data";
+import client from "./db.js";
+
+dotenv.config();
+const app = express();
+app.use(express.json());
+
+const storage = multer.diskStorage({
+	destination: (req, file, cb) => {
+		cb(null, "uploads/");
+	},
+	filename: (req, file, cb) => {
+		cb(null, Date.now() + "-" + file.originalname);
+	},
+});
+const upload = multer({ storage });
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use("/static", express.static("public"));
+
+async function push(title, body, fileUrl) {
+	try {
+		await axios.post(
+			process.env.PUSHBULLET_API,
+			{
+				type: "file",
+				title: title || "New File Upload",
+				body: body || "Here is your uploaded file",
+				file_url: fileUrl,
+				file_name: "Uploaded Image",
+				file_type: "image/jpeg",
+			},
+			{
+				headers: {
+					"Access-Token": process.env.PUSHBULLET_TOKEN,
+					"Content-Type": "application/json",
+				},
+			}
+		);
+		console.log("Push notification sent successfully!");
+	} catch (err) {
+		console.error("Pushbullet error:", err.response?.data || err.message);
+	}
+}
+
+app.get("/", (req, res) => {
+	res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
+app.post("/api/submit", upload.single("image"), async (req, res) => {
+	const { balance, phone, paymentMethod, senderInfo } = req.body;
+	console.log(senderInfo);
+
+	try {
+		const uploadRequest = await axios.post(
+			"https://api.pushbullet.com/v2/upload-request",
+			{
+				file_name: req.file.originalname,
+				file_type: req.file.mimetype,
+			},
+			{
+				headers: {
+					"Access-Token": process.env.PUSHBULLET_TOKEN,
+					"Content-Type": "application/json",
+				},
+			}
+		);
+
+		const formData = new FormData();
+		formData.append("file", fs.createReadStream(req.file.path));
+		await axios.post(uploadRequest.data.upload_url, formData, {
+			headers: {
+				...formData.getHeaders(),
+			},
+		});
+		const result = await client.query(
+			"INSERT INTO transactions(balance, phone, payment_method, sender_info, screenshot) VALUES($1, $2, $3, $4, $5)",
+			[
+				balance,
+				phone,
+				paymentMethod,
+				senderInfo[0] ? senderInfo[0] : senderInfo[1],
+				uploadRequest.data.file_url,
+			]
+		);
+		console.log("Transaction saved to database:", result.rows);
+
+		if (!req.file) {
+			return res.status(400).json({ error: "No file uploaded" });
+		}
+
+		await push(
+			"New order",
+			`Balance amount: ${balance}\nPhone number: ${phone}\nPayment Method: ${paymentMethod}\nCash sender: ${
+				senderInfo[0] ? senderInfo[0] : senderInfo[1]
+			}`,
+			uploadRequest.data.file_url
+		);
+
+		res.json({ message: "Transaction saved and file uploaded successfully!" });
+	} catch (err) {
+		console.error(
+			"Error in file upload or push:",
+			err.response?.data || err.message
+		);
+		res.status(500).json({ error: "Failed to upload and push file" });
+	}
+});
+
+app.listen(3000, () => {
+	console.log("Server is listening on port 3000");
+});
