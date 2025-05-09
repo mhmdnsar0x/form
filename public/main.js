@@ -298,33 +298,7 @@ removeImageBtn.addEventListener('click', function () {
   });
   
   // New request button
-  newRequestBtn.addEventListener('click', function() {
-    // Reset form
-  
-    // Reset form state
-    formState = {
-      balance: "",
-      cashAmount: 0,
-      phone: "",
-      paymentMethod: "",
-      senderInfo: "",
-      screenshot: null
-    };
-  
-    // Reset UI
-    balanceInfo.classList.add('hidden');
-    phoneError.classList.add('hidden');
-    cashMethod.classList.remove('selected');
-    instaMethod.classList.remove('selected');
-    cashInstructions.classList.add('hidden');
-    instaInstructions.classList.add('hidden');
-    uploadSection.classList.add('hidden');
-    previewContainer.classList.add('hidden');
-  
-    // Show form and hide success
-    formContainer.classList.remove('hidden');
-    successContainer.classList.add('hidden');
-  
-    // Disable submit button
-    submitBtn.disabled = true;
-  });
+  newRequestBtn.addEventListener("click", function () {
+    // Redirect to the main page
+    window.location.href = "/";
+});
