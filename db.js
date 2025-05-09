@@ -8,7 +8,7 @@ const client = new pg.Client({
 	host: process.env.HOST,
 	database: "railway",
 	password: process.env.PGPASSWORD, // Replace with your actual password
-	port: process.env.PORT,
+	port: 35510,
 	ssl: {
 		rejectUnauthorized: false,
 	},
