@@ -5,7 +5,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import multer from "multer";
 import fsp from "fs/promises"; // Use the promise-based version of fs
-import fs from "fs"
+import fs from "fs";
 import FormData from "form-data";
 import client from "./db.js";
 
@@ -108,26 +108,27 @@ app.post("/api/submit", upload.single("image"), async (req, res) => {
 		);
 
 		// Send a push notification
-	
-	
-res.send("200")	} catch (err) {
+
+		res.redirect("/");
+	} catch (err) {
 		console.error(
 			"Error in file upload or push:",
 			err.response?.data || err.message
 		);
 		if (req.file && req.file.path) {
 			try {
-				 fs.unlink(req.file.path);
+				fs.unlink(req.file.path);
 				console.log(`File ${req.file.path} deleted after error.`);
 			} catch (deleteErr) {
-				console.error(`Failed to delete file ${req.file.path}:`, deleteErr.message);
+				console.error(
+					`Failed to delete file ${req.file.path}:`,
+					deleteErr.message
+				);
 			}
 		}
 
-	
 		res.status(500).json({ error: "Failed to upload and push file" });
 	}
-
 });
 
 app.listen(3000, () => {
