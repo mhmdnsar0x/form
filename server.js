@@ -109,7 +109,6 @@ app.post("/api/submit", upload.single("image"), async (req, res) => {
 
 		// Send a push notification
 
-		res.redirect("/");
 	} catch (err) {
 		console.error(
 			"Error in file upload or push:",
