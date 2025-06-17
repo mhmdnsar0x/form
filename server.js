@@ -129,8 +129,7 @@ app.post("/api/submit", upload.single("image"), async (req, res) => {
 		res.status(500).json({ error: "Failed to upload and push file" });
 	}
 });
-
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
 	console.log(`Server is listening on port ${PORT}`);
 });
